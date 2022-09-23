@@ -18,13 +18,23 @@ void setDrive(int left, int right) {
   backRight = right;
 
 }
+/*
+void setArcade(int left, int turn) {
 
+  frontLeft = -(left + turn);
+  backLeft = -(left + turn);
+  frontRight = -(left - turn);
+  backRight = -(left - turn);
+    
+}
+**/
 void setDriveMotors() {
 
   int leftJoystick = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
   int rightJoystick = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+  int turnP = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
   setDrive(leftJoystick,rightJoystick);
-
+  //setArcade(leftJoystick,turnP);
 }
 
 void setIntake() {
