@@ -18,7 +18,7 @@ void setDrive(int left, int right) {
   backRight = right;
 
 }
-/*
+
 void setArcade(int left, int turn) {
 
   frontLeft = -(left + turn);
@@ -27,14 +27,14 @@ void setArcade(int left, int turn) {
   backRight = -(left - turn);
     
 }
-**/
+
 void setDriveMotors() {
 
   int leftJoystick = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
   int rightJoystick = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
   int turnP = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
-  setDrive(leftJoystick,rightJoystick);
-  //setArcade(leftJoystick,turnP);
+  //setDrive(leftJoystick,rightJoystick);
+  setArcade(leftJoystick,turnP);
 }
 
 void setIntake() {
@@ -83,8 +83,26 @@ void disabled() {}
 
 void competition_initialize() {}
 
+void autonLeft(){
+  flywheelFront.move_velocity(600);
+	flywheelBack.move_velocity(600);
+  pros::delay(5);
+  intake.move_velocity(600);
+  pros::delay(500);
+  intake.move_velocity(-600);
+}
 
-void autonomous() {}
+
+void autonRight(){
+
+
+}
+
+void autonomous() {
+  autonLeft();
+  //autonRight();
+
+}
 
 
 void opcontrol() {
