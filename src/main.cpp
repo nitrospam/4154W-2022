@@ -21,10 +21,10 @@ void setDrive(int left, int right) {
 
 void setArcade(int left, int turn) {
 
-  frontLeft = -(left + turn);
-  backLeft = -(left + turn);
-  frontRight = -(left - turn);
-  backRight = -(left - turn);
+  frontLeft = (left + turn);
+  backLeft = (left + turn);
+  frontRight = (left - turn);
+  backRight = (left - turn);
     
 }
 
@@ -53,24 +53,35 @@ void setIntake() {
 }
 
 bool flywheelBoolean = false;
+bool flywheelBooleanY = false;
 
 void setFlywheelToggle(){
 if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
             flywheelBoolean = !flywheelBoolean;
             pros::delay(300);
         }
+if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)){
+            flywheelBooleanY = !flywheelBooleanY;
+            pros::delay(300);
+        }
 }
 
 void setFlywheel(){
     if (flywheelBoolean){
-        flywheelFront.move_velocity(600);
-		flywheelBack.move_velocity(600);
+        flywheelFront.move_velocity(550);
+		flywheelBack.move_velocity(550);
+    }
+    else if (flywheelBooleanY){
+    flywheelFront.move_velocity(475);
+		flywheelBack.move_velocity(475);
+
     }
     else {
         flywheelFront = 0;
 		flywheelBack = 0;
     }
 }
+
 
 
 void initialize() {
@@ -83,13 +94,48 @@ void disabled() {}
 
 void competition_initialize() {}
 
-void autonLeft(){
-  flywheelFront.move_velocity(600);
-	flywheelBack.move_velocity(600);
-  pros::delay(5);
-  intake.move_velocity(600);
+void moveForward(int x, int delay) {
+  frontLeft.move(x);
+  frontRight.move(x);
+  backLeft.move(x);
+  backRight.move(x);
+  pros::delay(delay);
+  frontLeft.move(0);
+  frontRight.move(0);
+  backLeft.move(0);
+  backRight.move(0);
+}
+
+void flyMove(int v, int d){
+  flywheelFront.move_velocity(v);
+	flywheelBack.move_velocity(v);
+  pros::delay(d);
+  intake.move_velocity(v);
   pros::delay(500);
-  intake.move_velocity(-600);
+ flywheelFront.move_velocity(0);
+	flywheelBack.move_velocity(0);
+  intake.move_velocity(0);
+  }
+
+void rollMove(int i, int drivespeed, int delay){
+  intake.move(i);
+  frontLeft.move(drivespeed);
+  frontRight.move(drivespeed);
+  backLeft.move(drivespeed);
+  backRight.move(drivespeed);
+  pros::delay(delay);
+  frontLeft.move(0);
+  frontRight.move(0);
+  backLeft.move(0);
+  backRight.move(0);
+
+}
+
+void autonLeft(){
+  moveForward(127,500);
+  flyMove(300, 500);
+  moveForward(-127,500);
+  rollMove(-600,-45,500);
 }
 
 
@@ -99,9 +145,7 @@ void autonRight(){
 }
 
 void autonomous() {
-  autonLeft();
-  //autonRight();
-
+autonLeft();
 }
 
 
