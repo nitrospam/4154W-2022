@@ -29,7 +29,6 @@ void setArcade(int left, int turn) {
 }
 
 void setDriveMotors() {
-
   int leftJoystick = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
   int rightJoystick = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
   int turnP = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
@@ -95,9 +94,9 @@ void disabled() {}
 void competition_initialize() {}
 
 void moveForward(int x, int delay) {
-  frontLeft.move(x);
+  frontLeft.move(x-20);
   frontRight.move(x);
-  backLeft.move(x);
+  backLeft.move(x-20);
   backRight.move(x);
   pros::delay(delay);
   frontLeft.move(0);
@@ -111,11 +110,23 @@ void flyMove(int v, int d){
 	flywheelBack.move_velocity(v);
   pros::delay(d);
   intake.move_velocity(v);
-  pros::delay(500);
+  pros::delay(3000);
  flywheelFront.move_velocity(0);
 	flywheelBack.move_velocity(0);
   intake.move_velocity(0);
   }
+void turnLeft (int x, int delay) 
+{
+  frontLeft.move(-x);
+  frontRight.move(-x );
+  backLeft.move(x);
+  backRight.move(x);
+  pros::delay(delay);
+  frontLeft.move(0);
+  frontRight.move(0);
+  backLeft.move(0);
+  backRight.move(0);
+}
 
 void rollMove(int i, int drivespeed, int delay){
   intake.move(i);
@@ -124,6 +135,7 @@ void rollMove(int i, int drivespeed, int delay){
   backLeft.move(drivespeed);
   backRight.move(drivespeed);
   pros::delay(delay);
+  intake.move(0);
   frontLeft.move(0);
   frontRight.move(0);
   backLeft.move(0);
@@ -131,21 +143,49 @@ void rollMove(int i, int drivespeed, int delay){
 
 }
 
-void autonLeft(){
+void OnRoller(){
   moveForward(127,500);
-  flyMove(300, 500);
+  flyMove(600, 1000);
   moveForward(-127,500);
-  rollMove(-600,-45,500);
+  rollMove(-400,-35,3500);
 }
 
+void simpleRoll(){
+  rollMove(-400,-45,750);
+}
+void double_roller()
+{
 
-void autonRight(){
+    rollMove(-600,-45,500); 
+    turnLeft(127, 150);
+    moveForward(127, 500);
+    turnLeft(-127, 500);
+    rollMove(-600,-45,500); 
+    turnLeft(-127, 500);
+    flyMove(600, 500);
+
 
 
 }
+
+void simpleAuto(){
+  //rollMove(-400,-45,750);
+  turnLeft(-127, 1500);
+  //flyMove(600, 1000);
+}
+void simpleFlyRun(){
+ moveForward(127, 1000);
+ flyMove(400, 2000);
+  
+}
+
 
 void autonomous() {
-autonLeft();
+  //double_roller();
+  //OnRoller();
+  //simpleRoll();
+  //simpleAuto();
+  simpleFlyRun();
 }
 
 
