@@ -10,6 +10,7 @@ pros::Motor intake(5, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_COU
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
+/*
 void setDrive(int left, int right) {
 
   frontLeft = left;
@@ -18,7 +19,7 @@ void setDrive(int left, int right) {
   backRight = right;
 
 }
-
+**/
 void setArcade(int left, int turn) {
 
   frontLeft = (left + turn);
@@ -174,18 +175,16 @@ void simpleAuto(){
   //flyMove(600, 1000);
 }
 void simpleFlyRun(){
- moveForward(127, 1000);
- flyMove(400, 2000);
-  
+  flyMove(300, 2000);
 }
 
 
 void autonomous() {
   //double_roller();
   //OnRoller();
-  //simpleRoll();
+  simpleRoll();
   //simpleAuto();
-  simpleFlyRun();
+  //simpleFlyRun();
 }
 
 
